@@ -1,0 +1,8 @@
+"My birthday photos.jpg" -1439798 2006.05.22
+"Cool moment.png" 2009.02.29 689128
+2019.04.20 "Job.docx" 29472842
+"Happy New Year.mp4" 2025.09.10 38293947
+12345 2025.04.07 "History_map.pdf"
+"" 2022.09.12 452544
+-12345 "*.txt"
+"Middle December.pdf" 2004.12.12
