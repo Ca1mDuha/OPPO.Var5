@@ -4,6 +4,9 @@
 #include <algorithm>
 #include "FileInfo.h"
 #include <stdint.h>
+#include <string>
+#include <regex>
+#include <sstream>
 using namespace std;
 
 int main() {
@@ -39,13 +42,89 @@ int main() {
     cout << "4 — Показать файлы в диапазоне КБ\n";
     cout << "Ваш выбор: ";
     cin >> choice;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     switch (choice)
     {
-    case 1:             // Добавление новой строки
-        // Напарник добавит строку
+    case 1: {
+        regex string_pattern(R"(^[\w\s]+\.[a-zA-Z0-9]+$)");
+        string userFile;
 
-        break;
+        while (true) {
+            cout << "Введите название файла (название + формат): ";
+            getline(cin, userFile);
+
+            if (regex_match(userFile, string_pattern)) {
+                break;
+            }
+            else
+                cout << "Ошибка! Неверный формат названия файла!" << endl;
+        }
+
+        regex date_regex(R"(\b\d+\.\d+\.\d+\b)");
+        string userDate;
+
+        while (true) {
+            cout << "Введите дату в формате ДД.ММ.ГГГГ: ";
+            cin >> userDate;
+
+            vector<string> parts;
+            stringstream ss(userDate);
+            string part;
+
+            while (getline(ss, part, '.'))
+                parts.push_back(part);
+
+            if (stoi(parts[0]) > 31 || stoi(parts[1]) > 12)
+                cout << "Ошибка: неверный формат даты! Попробуйте снова." << endl;
+
+            else if (regex_match(userDate, date_regex)) {
+                break;
+            }
+            else {
+                cout << "Ошибка: неверный формат даты! Попробуйте снова." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+        }
+
+        regex size_regex(R"(\b\d+\b)");
+        string fileSize;
+        int Razmer;
+
+        while (true) {
+            cout << "Введите размер файла (целое число байт): ";
+            cin >> fileSize;
+
+            if (regex_match(fileSize, size_regex)) {
+                try {
+                    Razmer = stoi(fileSize);
+                    break;
+                }
+                catch (const exception& e) {
+                    cout << "Ошибка: неверный формат числа! Попробуйте снова." << endl;
+                }
+            }
+            else {
+                cout << "Ошибка! Размер должен быть целым!" << endl;
+            }
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+        ofstream outfile("File.txt", ios::app);
+        if (!outfile) {
+            cerr << "Не удалось открыть файл для записи!" << endl;
+            return 1;
+        }
+
+        outfile << endl;
+        outfile << "\"" << userFile << "\"" " " << userDate << " " << Razmer << " " << endl;
+        outfile.close();
+
+        cout << "Данные успешно добавлены в файл!" << endl;
+    }
+          break;
 
     case 2:             // Вывод всех данных в консоль
         cout << "\nВсе данные:\n\n";
