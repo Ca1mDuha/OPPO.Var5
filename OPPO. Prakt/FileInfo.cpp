@@ -15,7 +15,7 @@ void FileInfo::StringToObjs(const std::string& line) {
 
     // Поиск имени файла
     if (std::regex_search(line, match, name_reg)) {
-        name = match[1];
+        sName = match[1];
     }
     else {
         throw std::runtime_error("имя файла не найдено");
@@ -38,20 +38,20 @@ void FileInfo::StringToObjs(const std::string& line) {
     }
 
     // Поиск размера
-    size = 0;
+    iSize = 0;
     bool found = false;
     auto begin = std::sregex_iterator(line.begin(), line.end(), size_reg);
     auto end = std::sregex_iterator();
     for (auto i = begin; i != end; ++i) {
         int n = stoi((*i)[1]);
         if (n != year && n != month && n != day) {
-            size = n;
+            iSize = n;
             found = true;
         }
     }
     if (!found) 
         throw std::runtime_error("размер не найден");
-    if (size < 0) 
+    if (iSize < 0)
         throw std::runtime_error("отрицательный размер файла");
 }
 
@@ -68,18 +68,18 @@ bool FileInfo::isValidDate(int year, int month, int day) const {
 }
 
 std::string FileInfo::getName() const {
-    return name;
+    return sName;
 }
 
 size_t FileInfo::getSizeKB() const {
-    return size / 1024;
+    return iSize / 1024;
 }
 
 std::ostream& operator<<(std::ostream& stream, const FileInfo& c) {
-    stream << "Файл: \"" << c.name << "\"\n";
+    stream << "Файл: \"" << c.sName << "\"\n";
     stream << "Дата создания: " << (c.date.tm_year + 1900) << "."
         << (c.date.tm_mon + 1) << "." << c.date.tm_mday << "\n";
-    stream << "Размер: " << c.size << " байт (" << c.size / 1024 << " КБ)\n";
+    stream << "Размер: " << c.iSize << " байт (" << c.iSize / 1024 << " КБ)\n";
     stream << "--------------------------------------\n";
     return stream;
 }

@@ -17,7 +17,7 @@ private:
     void StringToObjs(const std::string& line);
     bool isValidDate(int year, int month, int day) const;
 
-    std::string name;
+    std::string sName;
     tm date{};
-    size_t size = 0;
+    int64_t iSize = 0;
 };
