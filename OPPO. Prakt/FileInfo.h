@@ -3,6 +3,7 @@
 #include <regex>
 #include <iostream>
 #include <ctime>
+#include <cstdint>
 
 class FileInfo {
 public:
