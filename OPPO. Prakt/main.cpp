@@ -65,7 +65,7 @@ int main() {
         string userDate;
 
         while (true) {
-            cout << "Введите дату в формате ДД.ММ.ГГГГ: ";
+            cout << "Введите дату в формате ГГГГ.ММ.ДД: ";
             cin >> userDate;
 
             vector<string> parts;
@@ -75,7 +75,7 @@ int main() {
             while (getline(ss, part, '.'))
                 parts.push_back(part);
 
-            if (stoi(parts[0]) > 31 || stoi(parts[1]) > 12)
+            if (stoi(parts[1]) > 12 || stoi(parts[2]) > 31)
                 cout << "Ошибка: неверный формат даты! Попробуйте снова." << endl;
 
             else if (regex_match(userDate, date_regex)) {
@@ -102,11 +102,11 @@ int main() {
                     break;
                 }
                 catch (const exception& e) {
-                    cout << "Ошибка: неверный формат числа! Попробуйте снова." << endl;
+                    cout << "Ошибка: неверный формат числа! Попробуйте снова" << endl;
                 }
             }
             else {
-                cout << "Ошибка! Размер должен быть целым!" << endl;
+                cout << "Ошибка! Размер должен быть целым и неотрицательным!" << endl;
             }
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -119,7 +119,7 @@ int main() {
         }
 
         outfile << endl;
-        outfile << "\"" << userFile << "\"" " " << userDate << " " << Razmer << " " << endl;
+        outfile << "\"" << userFile << "\"" " " << userDate << " " << Razmer;
         outfile.close();
 
         cout << "Данные успешно добавлены в файл!" << endl;
