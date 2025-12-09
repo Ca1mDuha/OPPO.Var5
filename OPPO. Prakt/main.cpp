@@ -1,4 +1,4 @@
-﻿﻿#include "FileInfo.h"
+﻿#include "FileInfo.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -54,15 +54,15 @@ void addToFile(vector<FileInfo>&) {
     }
 
     regex sizePattern(R"(^\d+$)");
-    string File_Size;
-    int Size_Bytes;
+    string fileSize;
+    int sizeBytes;
 
-    while (true) {
+    while (true){
         cout << "Введите размер файла (в байтах): ";
-        getline(cin, File_Size);
+        getline(cin, fileSize);
 
-        if (regex_match(File_Size, sizePattern)) {
-            Size_Bytes = stoi(File_Size);
+        if (regex_match(fileSize, sizePattern)){
+            sizeBytes = stoi(fileSize);
             break;
         }
 
@@ -75,7 +75,7 @@ void addToFile(vector<FileInfo>&) {
         return;
     }
 
-    out << endl << "\"" << userFile << "\" " << userDate << " " << Size_Bytes;
+    out << endl << "\"" << userFile << "\" " << userDate << " " << sizeBytes;
     out.close();
 
     cout << "Данные успешно добавлены." << endl;
