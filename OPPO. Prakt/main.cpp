@@ -54,15 +54,15 @@ void addToFile(vector<FileInfo>&){
     }
 
     regex sizePattern(R"(^\d+$)");
-    string fileSize;
+    string UserSizeStr;
     int UserSize;
 
     while (true){
         cout << "Введите размер файла (в байтах): ";
-        getline(cin, fileSize);
+        getline(cin, UserSizeStr);
 
-        if (regex_match(fileSize, sizePattern)){
-            UserSize = stoi(fileSize);
+        if (regex_match(UserSizeStr, sizePattern)){
+            UserSize = stoi(UserSizeStr);
             break;
         }
 
