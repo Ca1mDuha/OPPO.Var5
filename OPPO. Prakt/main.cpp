@@ -11,17 +11,17 @@
 #include <map>
 using namespace std;
 
-struct MenuItem{
+struct MenuItem {
     std::string discr;
     std::function<void(vector<FileInfo>&)> func;
 };
 
 // Добавление новой строки
-void addToFile(vector<FileInfo>&){
+void addToFile(vector<FileInfo>&) {
     regex namePattern(R"(^[\w\s]+\.[a-zA-Z0-9]+$)");
     string userFile;
 
-    while (true){
+    while (true) {
         cout << "Введите название файла (название + формат): ";
         getline(cin, userFile);
 
@@ -34,7 +34,7 @@ void addToFile(vector<FileInfo>&){
     regex datePattern(R"(\b\d{4}\.\d{2}\.\d{2}\b)");
     string userDate;
 
-    while (true){
+    while (true) {
         cout << "Введите дату в формате ГГГГ.ММ.ДД: ";
         getline(cin, userDate);
 
@@ -46,7 +46,7 @@ void addToFile(vector<FileInfo>&){
             parts.push_back(part);
 
         if (parts.size() == 3 && stoi(parts[1]) <= 12 && stoi(parts[2]) <= 31
-            && regex_match(userDate, datePattern)){
+            && regex_match(userDate, datePattern)) {
             break;
         }
 
@@ -70,7 +70,7 @@ void addToFile(vector<FileInfo>&){
     }
 
     ofstream out("File.txt", ios::app);
-    if (!out){
+    if (!out) {
         cerr << "Не удалось открыть файл для записи." << endl;
         return;
     }
@@ -83,7 +83,7 @@ void addToFile(vector<FileInfo>&){
 
 
 // Вывод всех данных
-void showAll(vector<FileInfo>& files){
+void showAll(vector<FileInfo>& files) {
     cout << "\nВсе данные:" << endl;
     for (const FileInfo& f : files)
         cout << f;
@@ -91,11 +91,11 @@ void showAll(vector<FileInfo>& files){
 
 
 // Сортировка по имени файла
-void showSorted(vector<FileInfo>& files){
+void showSorted(vector<FileInfo>& files) {
     vector<FileInfo> sorted = files;
 
     sort(sorted.begin(), sorted.end(),
-        [](const FileInfo& a, const FileInfo& b){
+        [](const FileInfo& a, const FileInfo& b) {
             return a.getName() < b.getName();
         });
 
@@ -107,7 +107,7 @@ void showSorted(vector<FileInfo>& files){
 
 
 // Сортировка по КБ
-void showBySizeRange(vector<FileInfo>& files){
+void showBySizeRange(vector<FileInfo>& files) {
     size_t minKB, maxKB;
     cout << "Введите диапазон (в КБ): ";
     cin >> minKB >> maxKB;
@@ -115,7 +115,7 @@ void showBySizeRange(vector<FileInfo>& files){
 
     cout << "\nФайлы в диапазоне " << minKB << "–" << maxKB << " КБ:" << endl;
 
-    for (const FileInfo& f : files){
+    for (const FileInfo& f : files) {
         size_t sizeKB = f.getSizeKB();
         if (sizeKB >= minKB && sizeKB <= maxKB)
             cout << f;
@@ -154,17 +154,17 @@ int main() {
     };
 
     for (auto& [id, item] : menuMap)
-        cout << id << " — " << item.discr  << endl;
+        cout << id << " — " << item.discr << endl;
 
     cout << "Ваш выбор: ";
     int choice;
     cin >> choice;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    try{
+    try {
         menuMap.at(choice).func(files);
     }
-    catch (...){
+    catch (...) {
         cout << "Неизвестная команда." << endl;
     }
 
